@@ -14,6 +14,9 @@ const Global =createGlobalStyle`
   box-sizing: border-box;
   
 }
+::-webkit-scrollbar {
+  width: 10px;
+}
 /* Remove default margin */
 body,
 h1,
@@ -58,9 +61,8 @@ body,html {
   transition: all 0.2s ease-in-out 0s;
   overflow-x:hidden;
   font-family: 'Open Sans', sans-serif;
-      height:100%;
+  height:100%;
   width:100%;
-  
 }
 ul{
   list-style:none;

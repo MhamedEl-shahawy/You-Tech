@@ -15,16 +15,20 @@ const Home = ()=>{
      {status === "success"? 
      <Ul>
        {data.map((db,i)=>(
-        <List>
+         <>
+      {db["snippet"]?.title ? 
+        <List key={db.etag+i}>
           <Thumbnails>
-          <Link to={"/videos/"+db.snippet["resourceId"].videoId}>
-            <Img src={db["snippet"].thumbnails["medium"].url} alt="Video Thumnails" />
+          <Link to={"/videos/"+db["id"].videoId}>
+            <Img src={db["snippet"]?.thumbnails["medium"].url} alt="Video Thumnails" />
           </Link> 
-          <P>{db["snippet"].description}</P>
+          <P>{db["snippet"]?.description}</P>
           </Thumbnails>
-          <H3><Link to={"/videos/"+db.snippet["resourceId"].videoId}>{db["snippet"].title}</Link></H3>
-          <H4><Link to={"/videos/"+db.snippet["resourceId"].videoId}>{db["snippet"].channelTitle}</Link></H4>
-        </List>   
+          <H3><Link to={"/videos/"+db["id"].videoId}>{db["snippet"]?.title}</Link></H3>
+          <H4><Link to={"/videos/"+db["id"].videoId}>{db["snippet"]?.channelTitle}</Link></H4>
+        </List>
+       :""}
+       </>   
         ))}
      </Ul>
      :""}

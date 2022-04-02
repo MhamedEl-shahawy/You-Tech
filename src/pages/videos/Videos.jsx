@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect,useState,useRef } from "react";
 import {Conatiner,Iframs,P,Ul,List,RelatedVideos,Video,H4,H3,Description} from "./style";
 import { useParams,Link } from "react-router-dom";
 import {useSelector,useDispatch} from "react-redux";
@@ -8,9 +8,19 @@ const Videos = ()=>{
     const dispatch = useDispatch();
     const data = useSelector((state)=> state.videos.data);
     const status = useSelector((state)=> state.videos.status);
-
+    const [counter,setCounter] = useState(10);
+    const relatedEle = useRef(null);
+    const handleScroll = (e)=>{
+     let resultCounter = counter;
+     if(relatedEle.current.scrollTop +  relatedEle.current.offsetHeight >= relatedEle.current.scrollHeight){
+      resultCounter +=10;
+      setCounter(resultCounter)
+      dispatch(getRelatedViedos({id,counter}));
+     }        
+    };
     useEffect(()=>{
-        dispatch(getRelatedViedos({id}));
+        dispatch(getRelatedViedos({id,counter}));
+       
     },[id])
 
   return(
@@ -24,11 +34,11 @@ const Videos = ()=>{
           </Iframs>
           <RelatedVideos>
               {status === "success" ?       
-             <Ul>
+             <Ul onScroll={handleScroll} ref={relatedEle}>
              { data.map((db,i)=>(
                <>
               {db["snippet"]?.title ? 
-             <List key={db.etag}>
+             <List key={db.etag+i}>
                <Link to={"/videos/"+db["id"].videoId}>
                <Video poster={db["snippet"]?.thumbnails["medium"]?.url}>
                 <source src="/media/cc0-videos/flower.webm"
@@ -37,8 +47,8 @@ const Videos = ()=>{
                  type="video/mp4"/>
               </Video> 
               <Description>
-              <H3><Link to="">{db["snippet"]?.title}</Link></H3>
-               <H4><Link to="">{db["snippet"]?.channelTitle}</Link></H4>
+              <H3>{db["snippet"]?.title}</H3>
+               <H4>{db["snippet"]?.channelTitle}</H4>
                <P>
                 
                    {new Date(db["snippet"]?.publishTime).toLocaleDateString('en-gb',{year: 'numeric',month: 'long',day: 'numeric'})}
