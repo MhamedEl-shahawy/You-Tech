@@ -7,6 +7,9 @@ export const  Nav = styled.nav`
 export const Ul = styled.ul`
    width:40%;   
    margin:auto;
+   @media (max-width:650px){
+      width:60%;
+   }
 `;
 export const List = styled.li`
    width:100%;

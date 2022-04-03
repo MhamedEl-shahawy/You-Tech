@@ -14,18 +14,18 @@ const Home = ()=>{
    <Container>
      {status === "success"? 
      <Ul>
-       {data.map((db,i)=>(
+       {data != undefined && data.map((db,i)=>(
          <>
       {db["snippet"]?.title ? 
         <List key={db.etag+i}>
+                    <Link to={"/videos/"+db["id"].videoId}>
           <Thumbnails>
-          <Link to={"/videos/"+db["id"].videoId}>
-            <Img src={db["snippet"]?.thumbnails["medium"].url} alt="Video Thumnails" />
-          </Link> 
-          <P>{db["snippet"]?.description}</P>
+            <Img src={db["snippet"]?.thumbnails["medium"].url} alt={"Video cover for "+ db["snippet"]?.channelTitle} />
           </Thumbnails>
-          <H3><Link to={"/videos/"+db["id"].videoId}>{db["snippet"]?.title}</Link></H3>
-          <H4><Link to={"/videos/"+db["id"].videoId}>{db["snippet"]?.channelTitle}</Link></H4>
+          <H3>{db["snippet"]?.title}</H3>
+          <H4>{db["snippet"]?.channelTitle}</H4>
+          </Link> 
+
         </List>
        :""}
        </>   

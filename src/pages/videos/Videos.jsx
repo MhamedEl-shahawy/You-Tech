@@ -35,7 +35,7 @@ const Videos = ()=>{
           <RelatedVideos>
               {status === "success" ?       
              <Ul onScroll={handleScroll} ref={relatedEle}>
-             { data.map((db,i)=>(
+             {data != undefined  && data.map((db,i)=>(
                <>
               {db["snippet"]?.title ? 
              <List key={db.etag+i}>

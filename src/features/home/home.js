@@ -8,11 +8,18 @@ export const getHomeViedos = createAsyncThunk(
       );
     }
   );
+  export const getSearchViedos = createAsyncThunk(
+    "searchVideos/getSearchViedos",
+     async (dispatch,getState)=>{
+        return await fetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=${dispatch.topics}&type=video&videoCategoryId=28&key=${process.env.REACT_APP_YOUTUBE}`).then(
+            (res) => res.json()
+        );
+    });  
 const homeSlice = createSlice({
     name:"home",
     initialState:{data:[],status: null},
     reducers:{
-       
+
     },
     extraReducers: {
         [getHomeViedos.pending]: (state, action) => {
@@ -21,12 +28,22 @@ const homeSlice = createSlice({
         [getHomeViedos.fulfilled]: (state, action) => {
           state.status = "success";
           state.data = action.payload.items;
-          console.log( action.payload)
-          console.log(state.status)
-
+         console.log(state.data ) 
+         console.log(state.status)
 
         },
         [getHomeViedos.rejected]: (state, action) => {
+          state.status = "failed";
+        },
+        [getSearchViedos.pending]: (state, action) => {
+          state.status = "loading";
+        },
+        [getSearchViedos.fulfilled]: (state, action) => {
+          
+          state.status = "success";
+          state.data =  action.payload.items;
+        },
+        [getSearchViedos.rejected]: (state, action) => {
           state.status = "failed";
         },
       },
